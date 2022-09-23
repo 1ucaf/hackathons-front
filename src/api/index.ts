@@ -20,7 +20,7 @@ export const getHackathons = async ():Promise<IMiniHackathon[]>=>{
 export const getDevelopers = async (id:{name:string, value:string})=>{
     axios.defaults.headers.common["Authorization"] = "Bearer " + getToken();
     let data = [];
-    data = await axios.get(`http://localhost:8080/hackathons/developers/?idName=${id.name}&idValue=${id.value}`)
+    data = await axios.get(`http://localhost:8080/hackathons/developers/${id.name}/${id.value}`)
     .then(response=>{
         return response.data;
     })

@@ -5,9 +5,10 @@ export interface IMainProps {
 }
 
 const Main:React.FunctionComponent<IMainProps> = (props: IMainProps) => {
+    
     const navigate = useNavigate();
     React.useEffect(()=>{
-        navigate("/hackathons")
+        navigate("/hackathons");
     }, [navigate])
     return (
         <></>

@@ -1,6 +1,10 @@
 import * as React from 'react';
-import { getHackathons } from '../../api';
+import { getDevelopers, getHackathons } from '../../api';
 import CustomTable, { IColumn, IRow } from '../../components/table';
+import { SelectedHackathonContext } from '../../contexts/Hackathons/SelectedHackathonContext';
+import { ModalContext } from '../../contexts/Modal';
+import { IId } from '../../dtos/hackathons';
+import { IDeveloper } from '../../dtos/developer.dto';
 import { formatHackathonData } from '../../utils';
 
 
@@ -8,6 +12,9 @@ export interface IHackathonsProps {
 }
 
 const Hackathons:React.FunctionComponent<IHackathonsProps> = (props: IHackathonsProps) => {
+    const modalContext = React.useContext(ModalContext)
+    const selectedHackathonContext = React.useContext(SelectedHackathonContext);
+
     const [hackathons, setHackathons] = React.useState<IRow[]>([]);
     const [columns, setColumns] = React.useState<IColumn[]>([]);;
     React.useEffect(()=>{
@@ -19,8 +26,28 @@ const Hackathons:React.FunctionComponent<IHackathonsProps> = (props: IHackathons
         setColumns(columns);
         setHackathons(data);
     }
-    const onRowClick = (e:React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-        console.log(e.currentTarget.id);
+    const onRowClick = async (e:React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+        const id = e.currentTarget.id;
+        const name = id.slice(0, id.indexOf(':'));
+        const value = id.slice(id.indexOf(':') + 2);
+        const Id:IId = {
+            name: name,
+            value: value,
+        }
+        const developers:IDeveloper[] = await getDevelopers(Id);
+        let count = 1;
+        let message = <>
+            {
+                developers.map( d => {
+                    return <>#${count++}: ${d.name.first}, ${d.name.last} <br/> </>
+                })
+            }
+        </>;
+        modalContext.setModalProps({
+            show:true,
+            message: message,
+            title: "Mejores 10 desarrolladores"
+        })
     }
     return (
         <div style={{textAlign:'center'}}>

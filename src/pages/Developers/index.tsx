@@ -23,7 +23,7 @@ const Developers:React.FunctionComponent<IDevelopersProps> = (props: IDevelopers
     }
     return (
         <div style={{textAlign:'center'}}>
-            <h1>Developers</h1>
+            <h1>Top World Developers</h1>
             <div style={{display: 'flex', justifyContent: 'center'}}>
                 <CustomTable
                     rows={developers}

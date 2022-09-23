@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import NavBar, { IRoute } from '../components/NavBar';
 import { SessionContext } from '../contexts/Session/SessionContext';
@@ -23,17 +23,17 @@ const routes:IRoute[] = [
 
 export function Pages (props: IRoutesProps) {
     const sessionContext = useContext(SessionContext)
-    useEffect(()=>{
-        console.log(sessionContext.token);
-    },[sessionContext.token])
+    const closeSession = ()=>{
+        sessionContext.setToken("");
+    }
     return (
         <BrowserRouter>
-            <NavBar userName="" closeSession={()=>{sessionContext.setToken("")}} thereIsAnyToken={sessionContext.token !== ""} routes={routes}/>
+            <NavBar userName="" closeSession={closeSession} thereIsAnyToken={sessionContext.token !== ""} routes={routes}/>
             <Routes>
                 <Route path='/' element={<Main/>}/>
-                <Route path='/hackathons' element={<Hackathons/>}/>
-                <Route path='/developers' element={<Developers/>}/>
-                <Route path='/login' element={<Login/>}/>
+                <Route path='hackathons' element={<Hackathons/>}/>
+                <Route path='developers' element={<Developers/>}/>
+                <Route path='login' element={<Login/>}/>
             </Routes>
         </BrowserRouter>
     );

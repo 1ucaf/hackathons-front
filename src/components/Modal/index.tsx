@@ -1,18 +1,28 @@
 import { Button } from '@mui/material';
-import Modal as ReactModal from 'react-modal';
-import ModalButtonsContainer from '../Containers/ModalButtonsContainer';
-import SingleButtonContainer from '../Containers/SingleButtonContainer';
+import {default as ReactModal} from 'react-modal';
+import ModalButtonsContainer from '../ModalButtonsContainer';
+import SingleButtonContainer from '../SingleButtonContainer';
 
-interface ModalProps {
 
+export interface IModalProps{
+    title: string,
+    message: string | React.ReactNode,
+    type?: string,
+    show: boolean,
+    afterCloseModal?: ()=>{},
+    onDelete?: ()=>{},
+    onCloseModal: ()=>void
 }
 
-interface IModalProps{
-    modalProps:ModalProps,
-    onCloseModal: ()=>{}
-}
-
-const Modal:React.FunctionComponent<IModalProps> = ({modalProps, onCloseModal}) => {
+const Modal:React.FunctionComponent<IModalProps> = ({
+    title = "",
+    message = "",
+    type = "",
+    show = false,
+    afterCloseModal = ()=>{},
+    onDelete = ()=>{},
+    onCloseModal
+}) => {
     const customStyles = {
         content: {
             background: "black",
@@ -25,28 +35,28 @@ const Modal:React.FunctionComponent<IModalProps> = ({modalProps, onCloseModal}) 
         },
     };
     return (
-        <Modal
-            isOpen={modalProps.show}
-            onRequestClose={modalProps.onCloseModal}
+        <ReactModal
+            isOpen={show}
+            onRequestClose={afterCloseModal}
             style={customStyles}
         >
             <div style={{width: "100%", display:"flex", justifyContent: "flex-end"}}>
-                <span style={{cursor: "pointer"}} onClick={()=>{onCloseModal(); modalProps.afterCloseModal();}}>X</span>
+                <span style={{cursor: "pointer"}} onClick={()=>{onCloseModal(); afterCloseModal();}}>X</span>
             </div>
-            <h1>{modalProps.title}</h1>
-            <p>{modalProps.message}</p>
+            <h1>{title}</h1>
+            <p>{message}</p>
             {
-                modalProps.type === "delete" ? 
+                type === "delete" ? 
                 <ModalButtonsContainer>
-                    <Button variant="outlined" size="large" onClick={()=>{onCloseModal(); modalProps.afterCloseModal();}}>Cancelar</Button>
-                    <Button variant="contained" size="large" onClick={()=>{modalProps.onDelete(); modalProps.afterCloseModal();}} color="error">Eliminar</Button>
+                    <Button variant="outlined" size="large" onClick={()=>{onCloseModal(); afterCloseModal();}}>Cancelar</Button>
+                    <Button variant="contained" size="large" onClick={()=>{onDelete(); afterCloseModal();}} color="error">Eliminar</Button>
                 </ModalButtonsContainer>
                 :
                 <SingleButtonContainer>
-                    <Button variant="contained" size="large" onClick={()=>{onCloseModal(); modalProps.afterCloseModal();}}>Aceptar</Button>
+                    <Button variant="contained" size="large" onClick={()=>{onCloseModal(); afterCloseModal();}}>Aceptar</Button>
                 </SingleButtonContainer>
             }
-        </Modal>
+        </ReactModal>
     )
 }
 

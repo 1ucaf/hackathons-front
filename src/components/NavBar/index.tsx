@@ -6,8 +6,9 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { MouseEventHandler, useState } from "react"
-import { useNavigate } from "react-router";
+import { MouseEventHandler, useContext, useEffect, useState } from "react"
+import { useNavigate, useLocation } from "react-router";
+import { SessionContext } from "../../contexts/Session/SessionContext";
 
 export interface IRoute {
     text: string,
@@ -23,6 +24,15 @@ interface INavBarProps {
 
 const NavBar:React.FunctionComponent<INavBarProps> = props => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const sessionContext = useContext(SessionContext);
+
+    useEffect(()=>{
+        if(sessionContext.token==="" && location.pathname !== "/login") {
+            navigate("/login");
+        }
+    },[navigate, location.pathname, sessionContext.token])
+
     const [opened, setOpened] = useState(false);
     return (
         <Box>

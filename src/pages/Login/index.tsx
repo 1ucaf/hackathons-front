@@ -6,9 +6,12 @@ import FormPageContainer from "./../../components/FormPageContainer";
 import SingleButtonContainer from "./../../components/SingleButtonContainer";
 import { loginApiCall } from "./../../api";
 import { SessionContext } from "../../contexts/Session/SessionContext";
+import { ModalContext } from "../../contexts/Modal";
 
 const Login = () => {
     const sessionContext = useContext(SessionContext);
+    const modalContext = useContext(ModalContext);
+
     const navigate = useNavigate();
 
     const [userName, setUserName] = useState("");
@@ -17,9 +20,17 @@ const Login = () => {
     const onError = (e: { response: { status: number; }; }) => {
         console.log(e);
         if(e.response?.status === 401) {
-            console.log("No Autorizado!");
+            modalContext.setModalProps({
+                show:true,
+                message: "Error, usuario o contraseña incorrectos!",
+                title:"No Autorizado!",
+            })
         } else {
-            console.log("error");
+            modalContext.setModalProps({
+                show:true,
+                message: "Ocurrió un error inesperado",
+                title:"Error",
+            })
         }
     }
 
