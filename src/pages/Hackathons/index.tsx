@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { getDevelopers, getHackathons } from '../../api';
 import CustomTable, { IColumn, IRow } from '../../components/table';
-import { SelectedHackathonContext } from '../../contexts/Hackathons/SelectedHackathonContext';
 import { ModalContext } from '../../contexts/Modal';
 import { IId } from '../../dtos/hackathons';
 import { IDeveloper } from '../../dtos/developer.dto';
@@ -13,7 +12,6 @@ export interface IHackathonsProps {
 
 const Hackathons:React.FunctionComponent<IHackathonsProps> = (props: IHackathonsProps) => {
     const modalContext = React.useContext(ModalContext)
-    const selectedHackathonContext = React.useContext(SelectedHackathonContext);
 
     const [hackathons, setHackathons] = React.useState<IRow[]>([]);
     const [columns, setColumns] = React.useState<IColumn[]>([]);;
@@ -38,8 +36,8 @@ const Hackathons:React.FunctionComponent<IHackathonsProps> = (props: IHackathons
         let count = 1;
         let message = <>
             {
-                developers.map( d => {
-                    return <>#${count++}: ${d.name.first}, ${d.name.last} <br/> </>
+                developers.map( (d, key) => {
+                    return <p key={key}> #{count++}: {d.name.first}, {d.name.last} <br/> </p>
                 })
             }
         </>;

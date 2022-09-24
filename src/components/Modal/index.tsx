@@ -36,6 +36,7 @@ const Modal:React.FunctionComponent<IModalProps> = ({
     };
     return (
         <ReactModal
+            ariaHideApp={false}
             isOpen={show}
             onRequestClose={afterCloseModal}
             style={customStyles}
@@ -44,7 +45,7 @@ const Modal:React.FunctionComponent<IModalProps> = ({
                 <span style={{cursor: "pointer"}} onClick={()=>{onCloseModal(); afterCloseModal();}}>X</span>
             </div>
             <h1>{title}</h1>
-            <p>{message}</p>
+            <>{message}</>
             {
                 type === "delete" ? 
                 <ModalButtonsContainer>
