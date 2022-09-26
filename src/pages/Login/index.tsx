@@ -48,6 +48,7 @@ const Login = () => {
         loginApiCall(userName, password)
         .then(token => {
             sessionContext.setToken(token);
+            sessionContext.setUserName(userName);
             navigate("/");
         })
         .catch(onError);

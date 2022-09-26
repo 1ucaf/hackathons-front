@@ -28,7 +28,7 @@ export function Pages (props: IRoutesProps) {
     }
     return (
         <BrowserRouter>
-            <NavBar userName="" closeSession={closeSession} thereIsAnyToken={sessionContext.token !== ""} routes={routes}/>
+            <NavBar userName={sessionContext.userName} closeSession={closeSession} thereIsAnyToken={sessionContext.token !== ""} routes={routes}/>
             <Routes>
                 <Route path='/' element={<Main/>}/>
                 <Route path='hackathons' element={<Hackathons/>}/>

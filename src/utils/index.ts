@@ -104,6 +104,19 @@ export const setToken = (token:string) => {
     })
 }
 
+export const setUserNameCookie = (userName: string) => {
+    setCookie({
+        cname: "userName",
+        cvalue: userName,
+        exhours: 4,
+    })
+}
+
+export const getUserNameCookie = () => {
+  const userName = getCookie("userName");
+  return userName;
+}
+
 export const getCookie = (cname:string) => {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);

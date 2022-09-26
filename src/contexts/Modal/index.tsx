@@ -16,11 +16,11 @@ interface IContextModalProps{
 }
 
 export const ModalContext = React.createContext({
-    modalProps: {
-      show:false
-    },
-    setModalProps: (_value:IContextModalProps) => {}
-  });
+  modalProps: {
+    show:false
+  },
+  setModalProps: (_value:IContextModalProps) => {}
+});
 
 const ModalProvider: React.FunctionComponent<IModalProviderProps> = ({ children }) => {
   const closeModal = ()=>{

@@ -1,5 +1,6 @@
 import { Button } from '@mui/material';
-import {default as ReactModal} from 'react-modal';
+import { default as ReactModal } from '@mui/material/Modal';
+import Box from '@mui/material/Box';
 import ModalButtonsContainer from '../ModalButtonsContainer';
 import SingleButtonContainer from '../SingleButtonContainer';
 
@@ -24,39 +25,40 @@ const Modal:React.FunctionComponent<IModalProps> = ({
     onCloseModal
 }) => {
     const customStyles = {
-        content: {
-            background: "black",
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-        },
+        position: 'absolute' as 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 600,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
     };
+    const onClose = ()=>{
+        afterCloseModal();
+        onCloseModal();
+    }
     return (
         <ReactModal
-            ariaHideApp={false}
-            isOpen={show}
-            onRequestClose={afterCloseModal}
-            style={customStyles}
+            open={show}
+            onClose={onClose}
         >
-            <div style={{width: "100%", display:"flex", justifyContent: "flex-end"}}>
-                <span style={{cursor: "pointer"}} onClick={()=>{onCloseModal(); afterCloseModal();}}>X</span>
-            </div>
-            <h1>{title}</h1>
-            <>{message}</>
-            {
-                type === "delete" ? 
-                <ModalButtonsContainer>
-                    <Button variant="outlined" size="large" onClick={()=>{onCloseModal(); afterCloseModal();}}>Cancelar</Button>
-                    <Button variant="contained" size="large" onClick={()=>{onDelete(); afterCloseModal();}} color="error">Eliminar</Button>
-                </ModalButtonsContainer>
-                :
-                <SingleButtonContainer>
-                    <Button variant="contained" size="large" onClick={()=>{onCloseModal(); afterCloseModal();}}>Aceptar</Button>
-                </SingleButtonContainer>
-            }
+            <Box sx={customStyles}>
+                <h1>{title}</h1>
+                <>{message}</>
+                {
+                    type === "delete" ? 
+                    <ModalButtonsContainer>
+                        <Button variant="outlined" size="large" onClick={onClose}>Cancelar</Button>
+                        <Button variant="contained" size="large" onClick={()=>{onDelete(); afterCloseModal();}} color="error">Eliminar</Button>
+                    </ModalButtonsContainer>
+                    :
+                    <SingleButtonContainer>
+                        <Button variant="contained" size="large" onClick={onClose}>Aceptar</Button>
+                    </SingleButtonContainer>
+                }
+            </Box>
         </ReactModal>
     )
 }
