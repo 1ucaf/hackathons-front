@@ -10,6 +10,13 @@ export interface IDeveloper extends Result {
     rank: number;
 }
 
+export interface IMiniDeveloper {
+    name: string,
+    age: string,
+    gender: string,
+    rank: number,
+}
+
 export interface Name {
     title: string;
     first: string;

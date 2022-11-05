@@ -3,7 +3,7 @@ import { getDevelopers, getHackathons } from '../../api';
 import CustomTable, { IColumn, IRow } from '../../components/table';
 import { ModalContext } from '../../contexts/Modal';
 import { IId } from '../../dtos/hackathons';
-import { IDeveloper } from '../../dtos/developer.dto';
+import { IDeveloper, IMiniDeveloper } from '../../dtos/developer.dto';
 import { formatHackathonData } from '../../utils';
 
 
@@ -32,12 +32,12 @@ const Hackathons:React.FunctionComponent<IHackathonsProps> = (props: IHackathons
             name: name,
             value: value,
         }
-        const developers:IDeveloper[] = await getDevelopers(Id);
+        const developers:IMiniDeveloper[] = await getDevelopers(Id);
         let count = 1;
         let message = <>
             {
                 developers.map( (d, key) => {
-                    return <p key={key}> #{count++}: {d.name.first}, {d.name.last} <br/> </p>
+                    return <p key={key}> #{count++}: {d.name} <br/> </p>
                 })
             }
         </>;
